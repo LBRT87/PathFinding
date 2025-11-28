@@ -1,15 +1,19 @@
-Devlog Pathfinding — Elbert Joan
-1. Overview
+# **Devlog Pathfinding — Elbert Joan**
+
+## *1. Overview*
 
 Project ini merupakan eksplorasi mendalam terhadap berbagai algoritma pathfinding yang diimplementasikan secara manual menggunakan bahasa C. Fokus utama bukan hanya menghasilkan output yang benar, tetapi memahami logika, proses, dan alur berpikir di balik tiap algoritma.
 
-Seperti yang ditekankan oleh ko David:
+Seperti yang ditekankan oleh ko David:  
 “Progress lebih penting daripada hasil akhir.”
 
 Dokumentasi ini berisi rangkuman progres harian, eksperimen, serta pemahaman yang diperoleh selama mempelajari pathfinding. Tujuannya adalah membangun fondasi yang kuat tentang bagaimana algoritma pencarian jalur bekerja di dalam grid maze.
 
-2. Progress
-25 November 2025 — Eksplorasi Awal
+---
+
+## *2. Progress*
+
+### **25 November 2025 — Eksplorasi Awal**
 
 Pada hari pertama, fokus saya adalah memahami konsep dasar pathfinding dan mengenal berbagai algoritma pencarian jalur. Saya juga memastikan algoritma mana saja yang diperbolehkan dan mana yang tidak (A* dan Dijkstra termasuk yang tidak boleh digunakan pada tugas ini).
 
@@ -17,81 +21,80 @@ Setelah itu, saya mulai langsung membuat prototipe awal—sebuah pendekatan sede
 
 Tahap yang dikerjakan:
 
-Menyusun struktur dasar program
+- Menyusun struktur dasar program  
+- Membuat maze awal dan mendefinisikan simbol:
+  - `E` = Path (ruang kosong yang bisa dilalui)
+  - `$` = Target
+  - `#` = Wall
+  - `*` = Traceback (jalur yang ditemukan)
+- Mengimplementasikan pergerakan menggunakan rekursi  
+- Melakukan uji coba untuk melihat bagaimana karakter bergerak di dalam maze  
 
-Membuat maze awal dan mendefinisikan simbol:
-
-E = Path (ruang kosong yang bisa dilalui)
-
-$ = Target
-
-# = Wall
-
-* = Traceback (jalur yang ditemukan)
-
-Mengimplementasikan pergerakan  menggunakan rekursi
-
-Melakukan uji coba untuk melihat bagaimana karakter bergerak di dalam maze
-
-Catatan singkat mengenai DFS:
-DFS menelusuri suatu cabang sedalam mungkin sebelum kembali (backtrack) untuk mencoba cabang lain.
-Kelebihan: simpel.
+Catatan singkat mengenai DFS:  
+DFS menelusuri suatu cabang sedalam mungkin sebelum kembali (backtrack) untuk mencoba cabang lain.  
+Kelebihan: simpel.  
 Kekurangan: sering tersesat, tidak mencari jalur optimal.
 
 Pada tahap ini, algoritma masih “belum cerdas”—DFS hanya mencari jalur apa pun yang memungkinkan. Bahkan salah satu percobaan membutuhkan waktu hingga hampir 100 detik.
 
-28 November 2025 — Analisis Perubahan Movement pada DFS
+---
 
-Fokus hari ini adalah menguji bagaimana perubahan urutan movement mempengaruhi hasil DFS.
+### **28 November 2025 — Analisis Perubahan Movement pada DFS**
+
+Fokus hari ini adalah menguji bagaimana perubahan urutan movement mempengaruhi hasil DFS.  
 Terdapat total 24 kombinasi arah (permutasi movement), dan setiap kombinasi menghasilkan jalur yang berbeda.
 
-Dari eksperimen (terdokumentasi dalam folder OutputDFS):
+Hasil eksperimen (di folder `OutputDFS`) menunjukkan:
 
-DFS tidak dirancang untuk mencari jalur terpendek
+- DFS tidak dirancang untuk mencari jalur terpendek  
+- Perubahan kecil pada urutan arah dapat mengubah hasil pencarian secara signifikan  
+- DFS hanya mencari “jalur pertama yang ditemukan”  
 
-Perubahan kecil pada urutan arah sangat mempengaruhi jalur hasil pencarian
+Kesimpulan: meskipun DFS mudah diimplementasikan, algoritma ini kurang cocok untuk pathfinding yang membutuhkan efisiensi atau optimalitas.
 
-DFS hanya mencari “jalur pertama yang ditemukan”
+---
 
-Kesimpulan: meskipun DFS mudah diimplementasikan, algoritma ini tidak ideal untuk pathfinding yang memerlukan efisiensi atau optimalitas.
+### **29 November 2025 — Eksperimen dengan A\***
 
-29 November 2025 — Eksperimen dengan A*
+Walaupun A* tidak diperbolehkan dalam konteks tugas, saya memutuskan untuk tetap mempelajarinya agar memahami kualitas dan efisiensi algoritma modern.
 
-Walaupun A* tidak diperbolehkan dalam konteks tugas, saya memutuskan untuk tetap mempelajarinya agar memahami perbedaan kualitas algoritma.
+A* menggunakan heuristik (misalnya Manhattan distance) untuk mengestimasi jarak menuju target, sehingga memilih jalur yang lebih menjanjikan.
 
-A* menggunakan heuristik (contohnya Manhattan distance) untuk mengestimasi jarak ke target, sehingga mampu memilih jalur yang lebih menjanjikan. Implementasi awal A* langsung menunjukkan perbedaan drastis dibanding DFS: lebih cepat, lebih terarah, dan jalurnya lebih optimal.
+Implementasi A* menunjukkan peningkatan kinerja yang signifikan dibanding DFS: lebih cepat, lebih terarah, dan menghasilkan rute yang lebih optimal.
 
-Eksperimen ini memberikan pemahaman yang sangat berharga mengenai bagaimana algoritma “cerdas” bekerja.
+Eksperimen ini sangat membantu memahami bagaimana algoritma “cerdas” bekerja dalam pathfinding.
 
-30 November 2025 — Implementasi BFS
+---
 
-Setelah memahami kelebihan dan kekurangan DFS serta mengenal efisiensi A*, saya mulai mengimplementasikan BFS (Breadth-First Search).
+### **30 November 2025 — Implementasi BFS**
 
-BFS bekerja dengan menelusuri grid “secara melebar”, bukan mendalam seperti DFS.
+Setelah mengamati keterbatasan DFS dan keunggulan A*, saya mulai mengimplementasikan BFS (Breadth-First Search).
 
-Keunggulan utama BFS:
+BFS menelusuri grid secara melebar (layer by layer), bukan mendalam seperti DFS.
 
-Dijamin menemukan jalur terpendek pada grid tanpa bobot
+Keunggulan BFS:
 
-Stabil dan sangat cocok untuk kasus-kasus maze sederhana
+- Menjamin menemukan jalur terpendek pada grid tanpa bobot  
+- Perilaku stabil dan konsisten  
+- Struktur algoritma lebih sederhana dibanding A*  
 
-Lebih mudah dipahami dibanding A*
+Hasil percobaan menunjukkan BFS sangat cocok untuk kasus maze klasik yang tidak memiliki bobot.
 
-Hasil percobaan BFS menunjukkan pencarian jalur yang optimal dan konsisten—tepat sesuai dengan karakteristiknya.
+---
 
-3. Kesimpulan
+## *3. Kesimpulan*
 
-Periode 25–30 November memberikan pemahaman menyeluruh terhadap perilaku beberapa algoritma pathfinding:
+Periode 25–30 November memberikan pemahaman menyeluruh mengenai cara kerja algoritma pathfinding:
 
-DFS
-Mudah diimplementasikan namun tidak mencari jalur optimal.
+- **DFS**  
+  Simpel dan mudah diterapkan, namun tidak mencari jalur optimal.
 
-BFS
-Cocok untuk kasus grid tanpa bobot, memberikan jalur terpendek, dan diperbolehkan dalam tugas.
+- **BFS**  
+  Memberikan jalur terpendek pada grid tanpa bobot dan sesuai dengan syarat tugas.
 
-A*
-Sangat efisien dan terarah berkat heuristik, namun tidak diperbolehkan dalam konteks tugas.
+- **A\***  
+  Paling efisien dan terarah berkat heuristik, tetapi tidak diperbolehkan untuk konteks tugas.
 
-Selain itu, eksperimen menunjukkan bahwa perubahan kecil pada prioritas movement dapat menghasilkan rute yang sepenuhnya berbeda, terutama pada DFS.
+Selain itu, eksperimen membuktikan bahwa perubahan kecil pada prioritas arah movement dapat menghasilkan jalur yang berbeda secara drastis—terutama pada DFS.
 
-Proses ini memberikan pemahaman mendalam mengenai bagaimana algoritma pathfinding bekerja, bagaimana membuatnya lebih cerdas, dan bagaimana memilih metode yang tepat untuk konteks tertentu.
+Proses ini membantu membangun pemahaman mendalam tentang bagaimana algoritma pathfinding bekerja, bagaimana menilai kelemahan dan kelebihannya, serta bagaimana merancang solusi yang lebih pintar.
