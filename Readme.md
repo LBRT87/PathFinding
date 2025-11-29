@@ -42,7 +42,7 @@ Pada tahap ini, algoritma masih “belum cerdas”—DFS hanya mencari jalur apa
 ### **28 November 2025 — Analisis Perubahan Movement pada DFS**
 
 Fokus hari ini adalah menguji bagaimana perubahan urutan movement mempengaruhi hasil DFS.  
-Terdapat total 24 kombinasi arah (permutasi movement), dan setiap kombinasi menghasilkan jalur yang berbeda.
+Saya menyadari terdapat total 24 kombinasi arah (permutasi movement), dan setiap kombinasi bisa menghasilkan jalur yang berbeda.
 
 Hasil eksperimen (di folder `OutputDFS`) menunjukkan:
 
@@ -71,7 +71,10 @@ Eksperimen ini sangat membantu memahami bagaimana algoritma “cerdas” bekerja
 Setelah mengamati keterbatasan DFS dan keunggulan A*, saya mulai mengimplementasikan BFS (Breadth-First Search).
 
 BFS menelusuri grid secara melebar (layer by layer), bukan mendalam seperti DFS.
-
+Mekanisme BFS :
+- Periksa semua tetangga dekat dulu
+- Baru lanjut ke tingkat berikutnya
+- Dijamin menemukan jalur terpendek (shortest path) jika bobot sama
 Keunggulan BFS:
 
 - Menjamin menemukan jalur terpendek pada grid tanpa bobot  
@@ -79,6 +82,8 @@ Keunggulan BFS:
 - Struktur algoritma lebih sederhana dibanding A*  
 
 Hasil percobaan menunjukkan BFS sangat cocok untuk kasus maze klasik yang tidak memiliki bobot.
+Algoritma.
+Dapat disimpulkan kalau BFS merupakan algoritma search klasik yang sering digunakan sebagai komponen dalam sistem Artificial Intelligence
 
 ---
 
