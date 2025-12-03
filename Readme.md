@@ -4,8 +4,6 @@
 
 Project ini merupakan eksplorasi mendalam terhadap berbagai algoritma pathfinding yang diimplementasikan secara manual menggunakan bahasa C. Fokus utama bukan hanya menghasilkan output yang benar, tetapi memahami logika, proses, dan alur berpikir di balik tiap algoritma.
 
-Seperti yang ditekankan oleh ko David:  
-“Progress lebih penting daripada hasil akhir.”
 
 Dokumentasi ini berisi rangkuman progres harian, eksperimen, serta pemahaman yang diperoleh selama mempelajari pathfinding. Tujuannya adalah membangun fondasi yang kuat tentang bagaimana algoritma pencarian jalur bekerja di dalam grid maze.
 
