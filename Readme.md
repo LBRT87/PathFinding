@@ -69,10 +69,12 @@ Eksperimen ini sangat membantu memahami bagaimana algoritma “cerdas” bekerja
 Setelah mengamati keterbatasan DFS dan keunggulan A*, saya mulai mengimplementasikan BFS (Breadth-First Search).
 
 BFS menelusuri grid secara melebar (layer by layer), bukan mendalam seperti DFS.
+
 Mekanisme BFS :
 - Periksa semua tetangga dekat dulu
 - Baru lanjut ke tingkat berikutnya
 - Dijamin menemukan jalur terpendek (shortest path) jika bobot sama
+  
 Keunggulan BFS:
 
 - Menjamin menemukan jalur terpendek pada grid tanpa bobot  
