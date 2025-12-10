@@ -2,116 +2,128 @@
 #include<windows.h>
 #include<stdlib.h>
 #include<time.h>
+#include<vector>
+
+
+using namespace std ;
 
 #define HEIGHT 14
-#define WIDTH 51
+#define WIDTH 50
+#define INF 9999999
+
 #define RED "\033[31m"
 #define GREEN "\033[32m"
 #define YELLOW "\033[033m"
 #define MAGENTA "\033[35m"
 #define RESET "\033[0m"
 
-char maze[HEIGHT][WIDTH] = {
-	"##################################################",
-    "#                                                #",
-    "################ ########### # ####### ##### ## ##",
-    "#              # #  #   #    # #######    ## ## ##",
-    "## ###########   ##   #   ####   ##     # ##  # ##",
-    "## ############# ########## #### ## # ### ### # ##",
-    "## #                # # # # #### ## # ####### # ##",
-    "##   ##########   ### # # # #              ## # ##",
-    "#### ##########               ## ############   ##",
-	"# ##          # ############# ##              ####",
-    "# ## #### ##### ##     $      ## ### ## ### # ####",
-    "#    ####          ####  ####    ### ## ##  #    #",
-	"# ####### ########            ################## #",
-	"##################################################"
-};
+struct Node {
+	char value ;
+	int x,y ;
+	int cost ;
+	bool isVisited ;
 
-void gotoxy (int x,int y) {
-	COORD coord ;
-	coord.X = x ;
-	coord.Y = y ;
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),coord) ;
-}
+	Node* prev ;
+} ; 
 
-void viewMaze () {
-
+void buildMap (char maze[HEIGHT][WIDTH+1],Node map[HEIGHT][WIDTH]) {
 	for (int i=0 ; i<HEIGHT ; i++) {
 		for (int j=0 ; j<WIDTH ; j++) {
-		
-			if (maze[i][j] == '$') {
-				printf(GREEN"%c"RESET,maze[i][j]) ;
-				
-			} else if (maze[i][j] == '*') {
-				printf(RED"%c"RESET,maze[i][j]) ;
-			} else if (maze [i][j] == 'E') {
-				printf(YELLOW"%c"RESET,maze[i][j]) ;
-			} 
-			else {
-				printf(MAGENTA"%c"RESET,maze[i][j]) ;
+			Node* node = &map[i][j] ;
+			node->value = maze[i][j] ;
+			node->x = j ;
+			node->y = i ;
+			node->isVisited = false ;
+			node->cost = (node->value == '#' ? INF : 1) ;
+			node->prev = NULL ;
+		}
+	}
+}
+
+void printMap (Node map[HEIGHT][WIDTH]) {
+	system("cls") ;
+	for (int i=0 ; i<HEIGHT ; i++) {
+		for (int j=0 ; j<WIDTH ; j++) {
+			if (map[i][j].value == '#') {
+				printf(YELLOW"%c"RESET,map[i][j].value) ;
+			} else if (map[i][j].value == '*') {
+				printf(RED"%c"RESET,map[i][j].value) ;
+			} else {
+				printf(GREEN"%c"RESET,map[i][j].value) ;
 			}
 		}
-		printf("\n") ;
-	} 
-
-}
-
-int found = 0 ;
-int Founded_X ;
-int Founded_Y ;
-
-void move (int x,int y) {
-	
-	if (found) return ;
-	if (x<1 || y<1 || x>=HEIGHT || y>=WIDTH) return ;
-	if (maze[x][y] == '#' || maze[x][y] == 'E') return ;
-	if (maze[x][y] == '$') {
-		Founded_X = x ;
-		Founded_Y = y ;
-		found = 1 ; ;
-		return ;
-	}  
-	
-	maze[x][y] = 'E' ;
-	viewMaze() ;
-	Sleep(1) ;
-	system("cls") ;
-
-	move(x,y+1) ; // GO RIGHT
-	move(x+1,y) ; // GO DOWN
-	move(x,y-1) ; // GO LEFT
-	move(x-1,y) ; // GO UP
-	
-	if (found) {
-		maze[x][y] = '*' ;
-	} else {
-		maze [x][y] = ' ' ;
+		puts("") ;
 	}
-		
 }
 
+bool isValidNode (Node* node) {
+	return !node->isVisited && node->cost != INF ;
+}
 
+Node* dfs (Node map[HEIGHT][WIDTH]) {
+	vector<Node*> list ;
+	list.push_back(&map[1][1]) ;
+
+	while (!list.empty()) {
+		Node* curr = list.back() ;
+		list.pop_back() ;
+		if (curr->value == '$') return curr ;
+
+		if (curr->cost == INF || curr->isVisited) continue ;
+
+		curr->isVisited = true ;
+		curr->value = '*' ;
+		printMap(map) ;
+		
+
+		int moveX [] = {0,1,0,-1} ;
+		int moveY [] = {1,0,-1,0} ;
+
+		for (int i=0 ; i<4 ; i++) {
+			int newX = curr->x + moveX [i] ;
+			int newY = curr->y + moveY [i] ;
+
+			Node* next = &map [newY][newX] ;
+			if (isValidNode(next)) {
+				next->prev = curr ;
+				list.push_back(next) ;
+			}
+		}
+
+	}
+	return NULL ;
+}
 
 int main() {
+	char maze[HEIGHT][WIDTH+1] = {
+		"##################################################",
+		"#                                                #",
+		"######  ######## ########### # ####### ##### ## ##",
+		"#              # #  #   #    # #######    ## ## ##",
+		"## ###########   ##   #   ####   ##     # ##  # ##",
+		"## ############# ########## #### ## # ### ### # ##",
+		"## #                # # # # #### ## # ####### # ##",
+		"##   ##########   ### # # # #              ## # ##",
+		"#### ##########               ## ############   ##",
+		"# ##          # ############# ##              ####",
+		"# ## #### ##### ##     $      ## ### ## ### # ####",
+		"#    ####          ####  ####    ### ## ##  #    #",
+		"# ####### ########            ################## #",
+		"##################################################"
+	};
+	Node map [HEIGHT][WIDTH] ;
 
-	int x_start = 1;
-	int y_start = 1;
-	move(x_start,y_start) ;
-	viewMaze() ;
-	
-	gotoxy(0,HEIGHT+2) ;
-	
-	printf(YELLOW"Cuan Cuan Cuan at x = %d, y = %d\n",Founded_X,Founded_Y) ;
+	buildMap (maze,map) ;
 
+	printMap(map) ;
+
+	Node* node = dfs(map) ;
 	
-	
-	
-	
-	
-	
-	
-	
-	
+	if (node == NULL) {
+		printf(MAGENTA"Not Found\n"RESET) ;
+	} else {
+		printf(GREEN"Found at coordinate X = %d , Y = %d"RESET,node->x,node->y) ;
+	}
+
 	return 0 ;
 }

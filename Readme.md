@@ -53,19 +53,6 @@ Hasil eksperimen (di folder `OutputDFS`) menunjukkan:
 Kesimpulan: meskipun DFS mudah diimplementasikan, algoritma ini kurang cocok untuk pathfinding yang membutuhkan efisiensi atau optimalitas.
 
 ---
-
-### **29 November 2025 — Eksperimen dengan A\***
-
-Walaupun A* tidak diperbolehkan dalam konteks tugas, saya memutuskan untuk tetap mempelajarinya agar memahami kualitas dan efisiensi algoritma modern.
-
-A* menggunakan heuristik (misalnya Manhattan distance) untuk mengestimasi jarak menuju target, sehingga memilih jalur yang lebih menjanjikan.
-
-Implementasi A* menunjukkan peningkatan kinerja yang signifikan dibanding DFS: lebih cepat, lebih terarah, dan menghasilkan rute yang lebih optimal.
-
-Eksperimen ini sangat membantu memahami bagaimana algoritma “cerdas” bekerja dalam pathfinding.
-
----
-
 ### **30 November 2025 — Implementasi BFS**
 
 Setelah mengamati keterbatasan DFS dan keunggulan A*, saya mulai mengimplementasikan BFS (Breadth-First Search).
@@ -96,9 +83,6 @@ Periode 25–30 November memberikan pemahaman menyeluruh mengenai cara kerja alg
 
 - **BFS**  
   Memberikan jalur terpendek pada grid tanpa bobot dan sesuai dengan syarat tugas.
-
-- **A\***  
-  Paling efisien dan terarah berkat heuristik, tetapi tidak diperbolehkan untuk konteks tugas.
 
 Selain itu, eksperimen membuktikan bahwa perubahan kecil pada prioritas arah movement dapat menghasilkan jalur yang berbeda secara drastis—terutama pada DFS.
 
